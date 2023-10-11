@@ -21,4 +21,11 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void onClickExpenseAdd(View view) {
+
+        Intent intent = new Intent(MainMenu.this, NewExpenseMenu.class);
+        startActivity(intent);
+
+    }
 }

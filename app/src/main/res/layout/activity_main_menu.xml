@@ -52,6 +52,7 @@
             android:layout_weight="1"
             android:layout_margin="6dp"
             android:text="Add new Expense"
+            android:onClick="onClickExpenseAdd"
             />
 
         <Button
