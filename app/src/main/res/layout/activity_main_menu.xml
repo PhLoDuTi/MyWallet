@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainMenu"
+    android:layout_margin="8dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,25 +15,29 @@
         android:layout_weight="10">
 
         <TextView
+            android:id="@+id/textViewToday"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Today is: "
             android:layout_weight="3"/>
 
         <TextView
+            android:id="@+id/textViewMonthlyExpense"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Total expenses this month: "
             android:layout_weight="3"/>
 
         <TextView
+            android:id="@+id/textViewTodayExpense"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Total expenses today: "
             android:layout_weight="3"/>
 
-        <GridView
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExpensesDaily"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             />
@@ -51,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="6dp"
-            android:text="Add new Expense"
+            android:text="Add Expense"
             android:onClick="onClickExpenseAdd"
             />
 
