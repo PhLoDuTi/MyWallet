@@ -66,10 +66,11 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
             double totalAmount = cursor.getDouble(
                     Math.max(0,cursor.getColumnIndex("total_amount")));
 
-            Expense expense = new Expense(
-                    (int) Math.round(totalAmount),
+            Expense expense = new Expense(kind,
+                    String.valueOf(totalAmount),
                     "",
-                    new Date());
+                    "",
+                    "");
 
             expenses.add(expense);
         }
@@ -134,8 +135,7 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
             String description = cursor.getString(
                     Math.max(0,cursor.getColumnIndex("description")));
 
-            ExpenseDaily expenseDaily =
-                new ExpenseDaily(Integer.parseInt(amount), kind, description);
+            ExpenseDaily expenseDaily = new ExpenseDaily(amount, kind, description);
             todayExpenses.add(expenseDaily);
         }
 

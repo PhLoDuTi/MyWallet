@@ -1,6 +1,5 @@
 package com.tdtu.mywallet;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ExpenseGridAdapter extends RecyclerView.Adapter<ExpenseGridAdapter.ViewHolder> {
-    private final int resourceID;
     private List<Expense> expenses;
-    private Context context;
-    private final LayoutInflater mInflater;
-    public ExpenseGridAdapter(Context context, List<Expense> expenses, int resourceID) {
-        this.context = context;
+
+    public ExpenseGridAdapter(List<Expense> expenses) {
         this.expenses = expenses;
-        this.resourceID =resourceID;
-        mInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -34,7 +28,8 @@ public class ExpenseGridAdapter extends RecyclerView.Adapter<ExpenseGridAdapter.
         holder.amountTextView.setText(expense.getAmount());
         holder.kindTextView.setText(expense.getKind());
         holder.descriptionTextView.setText(expense.getDescription());
-        holder.dateTextView.setText(expense.getDateString());
+        holder.dateTextView.setText(expense.getDate());
+        holder.timeTextView.setText(expense.getTime());
     }
 
     @Override

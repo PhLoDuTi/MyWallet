@@ -1,29 +1,31 @@
 package com.tdtu.mywallet;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Expense {
-    private int amount;
+    private String amount;
     private String kind;
     private String description;
-    private Date date;
-    SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
+    private String date;
+    private String time;
 
-    public Expense(int amount, String kind, Date date) {
+    public Expense(String amount,
+                   String kind,
+                   String description,
+                   String date,
+                   String time) {
 
         this.amount = amount;
         this.kind = kind;
+        this.description = description;
         this.date = date;
-        description = "des";
+        this.time = time;
     }
 
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -43,13 +45,19 @@ public class Expense {
         this.description = description;
     }
 
-    public Date getDate() {
-        return this.date;
+    public String getDate() {
+        return date;
     }
 
-    public String getDateString(){
-        return fm.format(this.date);
+    public void setDate(String date) {
+        this.date = date;
     }
 
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
