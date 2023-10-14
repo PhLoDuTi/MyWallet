@@ -41,7 +41,7 @@ public class StatisticsMenu extends AppCompatActivity {
 
         dbHelper = new ExpensesDBHelper(StatisticsMenu.this);
         db = dbHelper.getWritableDatabase();
-        expenses = dbHelper.getExpenses();
+        expenses = dbHelper.getExpensesGroupedByKind();
 
         if (expenses != null) {
             expenseAdapter = new ExpenseGridAdapter(expenses);

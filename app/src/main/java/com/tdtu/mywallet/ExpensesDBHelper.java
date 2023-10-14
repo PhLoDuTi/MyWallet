@@ -40,30 +40,35 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
         // Should go into play on major database changes.
     }
 
-    //--------------------------------
-    //Handling of getting ALL expenses
-    //--------------------------------
+    //---------------------------------------------
+    //Handling of getting expenses, grouped by kind
+    //---------------------------------------------
 
-    public List<Expense> getExpenses() {
+    public List<Expense> getExpensesGroupedByKind() {
         List<Expense> expenses = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] projection = {"amount", "kind", "description", "date", "time"};
+
+        String[] projection = {"kind", "SUM(amount) as total_amount"};
+        String groupBy = "kind";
         Cursor cursor = db.query("expenses",
                 projection,
                 null,
                 null,
-                null,
+                groupBy,
                 null,
                 null);
 
+        // Create an Expense object with the kind and total amount for every match
         while (cursor.moveToNext()) {
-            String amount = cursor.getString(cursor.getColumnIndex("amount"));
             String kind = cursor.getString(cursor.getColumnIndex("kind"));
-            String description = cursor.getString(cursor.getColumnIndex("description"));
-            String date = cursor.getString(cursor.getColumnIndex("date"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
+            double totalAmount = cursor.getDouble(cursor.getColumnIndex("total_amount"));
 
-            Expense expense = new Expense(amount, kind, description, date, time);
+            Expense expense = new Expense(kind,
+                    String.valueOf(totalAmount),
+                    "",
+                    "",
+                    "");
+
             expenses.add(expense);
         }
 
