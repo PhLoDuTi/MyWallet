@@ -44,7 +44,7 @@ public class StatisticsMenu extends AppCompatActivity {
         expenses = dbHelper.getExpensesGroupedByKind();
 
         if (expenses != null) {
-            expenseAdapter = new ExpenseGridAdapter(expenses);
+            expenseAdapter = new ExpenseGridAdapter(this,expenses, R.layout.expense_item);
             expensesRecyclerView.setAdapter(expenseAdapter);
         } else {
             Toast.makeText(StatisticsMenu.this,

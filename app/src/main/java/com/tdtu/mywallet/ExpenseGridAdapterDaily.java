@@ -31,10 +31,10 @@ public class ExpenseGridAdapterDaily extends
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ExpenseDaily expense = expenses.get(position);
-        holder.amountTextView.setText(expense.getAmount());
-        holder.kindTextView.setText(expense.getKind());
-        holder.descriptionTextView.setText(expense.getDescription());
+        ExpenseDaily expenseDaily = expenses.get(position);
+        holder.amountTextView.setText(expenseDaily.getAmount());
+        holder.kindTextView.setText(expenseDaily.getKind());
+        holder.descriptionTextView.setText(expenseDaily.getDescription());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
