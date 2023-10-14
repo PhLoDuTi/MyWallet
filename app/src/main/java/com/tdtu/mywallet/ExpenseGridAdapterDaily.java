@@ -12,8 +12,6 @@ public class ExpenseGridAdapterDaily extends
 
     private List<ExpenseDaily> expenses;
 
-    private List<ExpenseDaily> data;
-
 
     public int getItemCount() {
         return expenses.size();
@@ -53,10 +51,7 @@ public class ExpenseGridAdapterDaily extends
     }
 
     public void updateData(List<ExpenseDaily> newData) {
-        data = newData;
-        //TODO Do something with this warning
-        //
-        //PLDT 12-10-2023 22:42
+        expenses = newData;
         notifyDataSetChanged();
     }
 }

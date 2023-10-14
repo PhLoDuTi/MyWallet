@@ -60,8 +60,11 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
 
         // Create an Expense object with the kind and total amount for every match
         while (cursor.moveToNext()) {
-            String kind = cursor.getString(cursor.getColumnIndex("kind"));
-            double totalAmount = cursor.getDouble(cursor.getColumnIndex("total_amount"));
+            String kind = cursor.getString(
+                    Math.max(0,cursor.getColumnIndex("kind")));
+
+            double totalAmount = cursor.getDouble(
+                    Math.max(0,cursor.getColumnIndex("total_amount")));
 
             Expense expense = new Expense(kind,
                     String.valueOf(totalAmount),
@@ -123,9 +126,14 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
                 null);
 
         while (cursor.moveToNext()) {
-            String amount = cursor.getString(cursor.getColumnIndex("amount"));
-            String kind = cursor.getString(cursor.getColumnIndex("kind"));
-            String description = cursor.getString(cursor.getColumnIndex("description"));
+            String amount = cursor.getString(
+                    Math.max(0,cursor.getColumnIndex("amount")));
+
+            String kind = cursor.getString(
+                    Math.max(0,cursor.getColumnIndex("kind")));
+
+            String description = cursor.getString(
+                    Math.max(0,cursor.getColumnIndex("description")));
 
             ExpenseDaily expenseDaily = new ExpenseDaily(amount, kind, description);
             todayExpenses.add(expenseDaily);
