@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="14sp"
+            android:textAlignment="center"
             android:text="Amount"/>
 
 
@@ -31,6 +32,7 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:textSize="14sp"
+            android:textAlignment="center"
             android:ellipsize="end"
             android:text="Kind"/>
 
@@ -44,6 +46,8 @@
             android:textSize="14sp"
             android:ellipsize="end"
             android:text="Description"/>
+
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

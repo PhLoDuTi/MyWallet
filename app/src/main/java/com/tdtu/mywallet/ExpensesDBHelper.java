@@ -66,8 +66,8 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
             double totalAmount = cursor.getDouble(
                     Math.max(0,cursor.getColumnIndex("total_amount")));
 
-            Expense expense = new Expense(kind,
-                    String.valueOf(totalAmount),
+            Expense expense = new Expense(String.valueOf(totalAmount),
+                    kind,
                     "",
                     "",
                     "");

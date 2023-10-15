@@ -9,13 +9,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 public class StatisticsMenu extends AppCompatActivity {
 
     private RecyclerView expensesRecyclerView;
     private ExpenseGridAdapter expenseAdapter;
     private List<Expense> expenses;
+    private List<ExpenseDaily> allExpenses;
 
     private SQLiteDatabase db;
     private ExpensesDBHelper dbHelper;
@@ -42,6 +47,54 @@ public class StatisticsMenu extends AppCompatActivity {
         dbHelper = new ExpensesDBHelper(StatisticsMenu.this);
         db = dbHelper.getWritableDatabase();
         expenses = dbHelper.getExpensesGroupedByKind();
+        allExpenses = dbHelper.getExpensesMadeToday();
+
+        // ------------------------------------------
+        // Get all the expense's kinds and count them
+        // ------------------------------------------
+
+        List<ExpensePercentage> expensePercentages = new ArrayList<>();
+        int totalExpenses = allExpenses.size();
+
+        Map<String, Integer> kindCount = new HashMap<>();
+        Map<String, Double> kindTotalAmount = new HashMap<>();
+
+        for (ExpenseDaily expense : allExpenses) {
+            String kind = expense.getKind();
+            kindCount.put(kind, kindCount.getOrDefault(kind, 0) + 1);
+            kindTotalAmount.put(kind, kindTotalAmount.getOrDefault(kind, 0.0) + Double.parseDouble(expense.getAmount()));
+        }
+
+        // -----------------------------------
+        // Calculate percentages for each kind
+        // -----------------------------------
+
+        for (Map.Entry<String, Integer> entry : kindCount.entrySet()) {
+            String kind = entry.getKey();
+            int count = entry.getValue();
+            double totalAmount = kindTotalAmount.get(kind);
+
+            double percentage = (count / (double) totalExpenses) * 100;
+
+            // Add to the list of ExpensePercentages
+            expensePercentages.add(new ExpensePercentage(kind, percentage, totalAmount));
+        }
+
+        // ------------------------------------
+        // Sort percentages in descending order
+        // ------------------------------------
+
+        expensePercentages.sort((p1, p2)
+                -> Double.compare(p2.getPercentage(), p1.getPercentage()));
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewExpensePercentages);
+
+        ExpensePercentageAdapter adapter = new ExpensePercentageAdapter(expensePercentages);
+
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (expenses != null) {
             expenseAdapter = new ExpenseGridAdapter(expenses);
@@ -63,4 +116,31 @@ public class StatisticsMenu extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public class ExpensePercentage {
+
+        private String expenseKind;
+        private double percentage;
+        private double totalAmount;
+
+        public ExpensePercentage(String expenseType, double percentage, double totalAmount) {
+            this.expenseKind = expenseType;
+            this.percentage = percentage;
+            this.totalAmount = totalAmount;
+        }
+
+        public String getExpenseType() {
+            return expenseKind;
+        }
+
+        public double getPercentage() {
+            return percentage;
+        }
+
+        public double getTotalAmount() {
+            return totalAmount;
+        }
+    }
+
+
 }
