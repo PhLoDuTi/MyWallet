@@ -80,20 +80,20 @@ public class MainMenu extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
         String todayDate = dateFormat.format(new Date());
         TextView dateTextView = findViewById(R.id.textViewToday);
-        dateTextView.setText("Today is " + todayDate);
+        dateTextView.setText(todayDate);
     }
 
     private void setMonthlyExpenses() {
         double totalExpenses = dbHelper.getTotalExpensesForMonth();
         TextView totalExpensesTextView = findViewById(R.id.textViewMonthlyExpense);
-        totalExpensesTextView.setText("Total Expenses (Month): " + totalExpenses);
+        totalExpensesTextView.setText("Total Expenses (Month): \n" + totalExpenses);
 
     }
 
     private void setTodayExpenses() {
         double todayExpenses = dbHelper.getTotalExpensesForToday();
         TextView todayExpensesTextView = findViewById(R.id.textViewTodayExpense);
-        todayExpensesTextView.setText("Today's Expenses: " + todayExpenses);
+        todayExpensesTextView.setText("Today's Expenses: \n" + todayExpenses);
     }
 
 
