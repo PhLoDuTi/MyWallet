@@ -66,8 +66,9 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
             double totalAmount = cursor.getDouble(
                     Math.max(0,cursor.getColumnIndex("total_amount")));
 
-            Expense expense = new Expense(String.valueOf(totalAmount),
+            Expense expense = new Expense(-1,
                     kind,
+                    String.valueOf(totalAmount),
                     "",
                     "",
                     "");
@@ -204,4 +205,51 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
 
         return totalExpenses;
     }
+
+    //--------------------------------
+    //Handing getting selected expense
+    //--------------------------------
+
+    public List<Expense> retrieveExpenseDataFromDatabase() {
+        List<Expense> expenseList = new ArrayList<>();
+
+        // Get a readable database instance
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define the columns you want to retrieve from the database
+        String[] projection = {
+                "_id",
+                "amount",
+                "kind",
+                "description",
+                "date",
+                "time"
+        };
+
+        // Define a sort order if needed
+        String sortOrder = "date DESC"; // Example: Sort by date in descending order
+
+        // Perform the query
+        Cursor cursor = db.query("expenses", projection, null, null, null, null, sortOrder);
+
+        // Iterate through the cursor to retrieve expense data
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndex("_id"));
+            String amount = cursor.getString(cursor.getColumnIndex("amount"));
+            String kind = cursor.getString(cursor.getColumnIndex("kind"));
+            String description = cursor.getString(cursor.getColumnIndex("description"));
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            String time = cursor.getString(cursor.getColumnIndex("time"));
+
+            // Create an Expense object and add it to the list
+            Expense expense = new Expense(id, amount, kind, description, date, time);
+            expenseList.add(expense);
+        }
+
+        // Close the cursor and the database
+        cursor.close();
+
+        return expenseList;
+    }
+
 }

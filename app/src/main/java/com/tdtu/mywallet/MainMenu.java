@@ -22,6 +22,10 @@ public class MainMenu extends AppCompatActivity {
     private ExpensesDBHelper dbHelper;
     private List<ExpenseDaily> expenses;
 
+    private List<Expense> expenseNum;
+
+    private RecyclerView expensesRecyclerViewDaily;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,7 @@ public class MainMenu extends AppCompatActivity {
         dbHelper = new ExpensesDBHelper(this);
         db = dbHelper.getWritableDatabase();
 
-        RecyclerView expensesRecyclerViewDaily = findViewById(R.id.recyclerViewExpensesDaily);
+        expensesRecyclerViewDaily = findViewById(R.id.recyclerViewExpensesDaily);
         expensesRecyclerViewDaily.setLayoutManager(new LinearLayoutManager(this));
 
         //--------------
@@ -45,6 +49,31 @@ public class MainMenu extends AppCompatActivity {
         expenses = dbHelper.getExpensesMadeToday();
         updateRecyclerViewData();
 
+        //Setting up listeners
+
+       RecyclerTouchListener recyclerTouchListener = new RecyclerTouchListener(this,
+               expensesRecyclerViewDaily,
+               new RecyclerTouchListener.ClickListener() {
+                   @Override
+                   public void onClick(View view, int position) {
+                       // Get the selected expense
+                       expenseNum = dbHelper.retrieveExpenseDataFromDatabase();
+                       Expense selectedExpense = expenseNum.get(position);
+
+                       // Create an intent to start the ExpenseEntryActivity in edit mode
+                       Intent editIntent = new Intent(MainMenu.this, NewExpenseMenu.class);
+                       editIntent.putExtra("EDIT_EXPENSE", selectedExpense);
+                       startActivity(editIntent);
+                   }
+
+                   @Override
+                   public void onLongClick(View view, int position) {
+                       Toast.makeText(MainMenu.this,
+                               "onLongClick!",
+                               Toast.LENGTH_SHORT).show();
+                   }
+               });
+       expensesRecyclerViewDaily.addOnItemTouchListener(recyclerTouchListener);
 
         //--------------
         //Displaying data
@@ -115,6 +144,11 @@ public class MainMenu extends AppCompatActivity {
        startActivity(intent);
 
    }
+
+   //----------------------------------
+   //Handling editing expenses manually
+   //----------------------------------
+
 
    //-----------------------------------------------------------
    //Update RecyclerView when we go to or get back to this view.

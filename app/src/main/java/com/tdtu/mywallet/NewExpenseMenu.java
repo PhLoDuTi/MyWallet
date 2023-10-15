@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,8 @@ public class NewExpenseMenu extends AppCompatActivity {
     private String isoFormattedDate;
     private String isoFormattedTime;
 
+    private boolean isEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,21 @@ public class NewExpenseMenu extends AppCompatActivity {
         textViewTime = findViewById(R.id.textViewTime);
         buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setEnabled(false);
+
+        //Special intent handling for when an expense entry is edited
+
+        Intent intent = getIntent();
+        Expense editExpense = intent.getParcelableExtra("EDIT_EXPENSE");
+        isEdit = (editExpense != null);
+
+        if (editExpense != null) {
+            // Populate the UI fields with the data from editExpense
+            editTextAmount.setText(editExpense.getAmount());
+            editTextKind.setText(editExpense.getKind());
+            editTextDescription.setText(editExpense.getDescription());
+            textViewDate.setText(editExpense.getDate());
+            textViewTime.setText(editExpense.getTime());
+        }
 
         // Enable the back button
         ActionBar actionBar = getSupportActionBar();
@@ -108,30 +126,57 @@ public class NewExpenseMenu extends AppCompatActivity {
                 ExpensesDBHelper dbHelper = new ExpensesDBHelper(NewExpenseMenu.this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                // Prepare data for insertion
-                ContentValues values = new ContentValues();
-                values.put("amount", amount);
-                values.put("kind", kind);
-                values.put("description", description);
-                values.put("date", date);
-                values.put("time", time);
 
-                // Insert the data into the database
-                long newRowId = db.insert("expenses", null, values);
+                // Check if we are editing an existing expense or creating a new one
+                if (isEdit) { // 'isEdit' should be a class-level variable
+                    //HACK prevent null on date and time when it hasn't been edited.
+                    String currentDate = textViewDate.getText().toString();
+                    String currentTime = textViewTime.getText().toString();
 
+                    ContentValues values = new ContentValues();
+                    values.put("amount", amount);
+                    values.put("kind", kind);
+                    values.put("description", description);
+                    values.put("date", currentDate);
+                    values.put("time", currentTime);
+
+
+                    String[] whereArgs = {String.valueOf(editExpense.getId())}; // Adjust based on your database structure
+                    int rowsUpdated = db.update("expenses", values, "_id=?", whereArgs);
+
+                    if (rowsUpdated != -1) {
+                        Toast.makeText(NewExpenseMenu.this,
+                                "Expense edited saved successfully",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(NewExpenseMenu.this,
+                                "Failed to save expense edits",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    ContentValues values = new ContentValues();
+                    values.put("amount", amount);
+                    values.put("kind", kind);
+                    values.put("description", description);
+                    values.put("date", date);
+                    values.put("time", time);
+
+                    long newRowId = db.insert("expenses", null, values);
+
+                    if (newRowId != -1) {
+                        Toast.makeText(NewExpenseMenu.this,
+                                "Expense saved successfully",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(NewExpenseMenu.this,
+                                "Failed to save expense",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
                 // Close the database
                 db.close();
-
-                if (newRowId != -1) {
-                    Toast.makeText(NewExpenseMenu.this,
-                            "Expense saved successfully",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(NewExpenseMenu.this,
-                            "Failed to save expense",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
