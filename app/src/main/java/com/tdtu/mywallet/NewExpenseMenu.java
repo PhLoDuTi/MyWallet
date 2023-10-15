@@ -73,6 +73,13 @@ public class NewExpenseMenu extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+        if(isEdit){
+            actionBar.setTitle("Edit Expense");
+            titleTextView.setText("Edit Expense");
+        }else {
+            actionBar.setTitle("New Expense");
+            titleTextView.setText("Add New Expense");
+        }
         // Common TextWatcher
         TextWatcher commonTextWatcher = new TextWatcher() {
             @Override
