@@ -70,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
                     "No expenses!",
                     Toast.LENGTH_SHORT).show();
         }
-   }
+    }
 
     //----------------------------
     //Handling of database queries
@@ -80,45 +80,45 @@ public class MainMenu extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
         String todayDate = dateFormat.format(new Date());
         TextView dateTextView = findViewById(R.id.textViewToday);
-        dateTextView.setText("Today is " + todayDate);
+        dateTextView.setText(todayDate);
     }
 
     private void setMonthlyExpenses() {
         double totalExpenses = dbHelper.getTotalExpensesForMonth();
         TextView totalExpensesTextView = findViewById(R.id.textViewMonthlyExpense);
-        totalExpensesTextView.setText("Total Expenses (Month): " + totalExpenses);
+        totalExpensesTextView.setText("Total Expenses (Month): \n" + totalExpenses);
 
     }
 
     private void setTodayExpenses() {
         double todayExpenses = dbHelper.getTotalExpensesForToday();
         TextView todayExpensesTextView = findViewById(R.id.textViewTodayExpense);
-        todayExpensesTextView.setText("Today's Expenses: " + todayExpenses);
+        todayExpensesTextView.setText("Today's Expenses: \n" + todayExpenses);
     }
 
 
 
-   //-------------------------
-   //Handling of button clicks
-   //-------------------------
+    //-------------------------
+    //Handling of button clicks
+    //-------------------------
 
-   public void onClickStatistics(View view) {
+    public void onClickStatistics(View view) {
 
-       Intent intent = new Intent(MainMenu.this, StatisticsMenu.class);
-       startActivity(intent);
+        Intent intent = new Intent(MainMenu.this, StatisticsMenu.class);
+        startActivity(intent);
 
-   }
+    }
 
-   public void onClickExpenseAdd(View view) {
+    public void onClickExpenseAdd(View view) {
 
-       Intent intent = new Intent(MainMenu.this, NewExpenseMenu.class);
-       startActivity(intent);
+        Intent intent = new Intent(MainMenu.this, NewExpenseMenu.class);
+        startActivity(intent);
 
-   }
+    }
 
-   //-----------------------------------------------------------
-   //Update RecyclerView when we go to or get back to this view.
-   //-----------------------------------------------------------
+    //-----------------------------------------------------------
+    //Update RecyclerView when we go to or get back to this view.
+    //-----------------------------------------------------------
 
     @Override
     protected void onResume() {
@@ -127,7 +127,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void updateRecyclerViewData() {
-        List<ExpenseDaily> updatedData = dbHelper.getExpensesMadeToday();
+        List<ExpenseDaily> updatedData = expenses;
 
         // Update the adapter with the new data
         if (expenseAdapterDaily != null) {
@@ -136,15 +136,15 @@ public class MainMenu extends AppCompatActivity {
     }
 
 
-   //----------------------------------------------------
-   //Making sure the database is closed when the app does
-   //----------------------------------------------------
+    //----------------------------------------------------
+    //Making sure the database is closed when the app does
+    //----------------------------------------------------
 
-   @Override
-   protected void onDestroy() {
-       super.onDestroy();
-       if (db != null) {
-           db.close();
-       }
-   }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (db != null) {
+            db.close();
+        }
+    }
 }
