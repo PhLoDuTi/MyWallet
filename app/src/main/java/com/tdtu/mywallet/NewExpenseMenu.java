@@ -26,7 +26,7 @@ public class NewExpenseMenu extends AppCompatActivity {
 
     EditText editTextAmount, editTextKind, editTextDescription;
 
-    TextView textViewDate, textViewTime;
+    TextView textViewDate, textViewTime, textViewTitle;
 
     Button buttonSave;
 
@@ -49,6 +49,7 @@ public class NewExpenseMenu extends AppCompatActivity {
         textViewDate = findViewById(R.id.textViewDate);
         textViewTime = findViewById(R.id.textViewTime);
         buttonSave = findViewById(R.id.buttonSave);
+        textViewTitle = findViewById(R.id.textViewTitle);
         buttonSave.setEnabled(false);
 
         //Special intent handling for when an expense entry is edited
@@ -73,13 +74,16 @@ public class NewExpenseMenu extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+
+        //Adjust UI depending if user is editing or making new expense
         if(isEdit){
             actionBar.setTitle("Edit Expense");
-            titleTextView.setText("Edit Expense");
+            textViewTitle.setText("Edit Expense");
         }else {
             actionBar.setTitle("New Expense");
-            titleTextView.setText("Add New Expense");
+            textViewTitle.setText("Add New Expense");
         }
+
         // Common TextWatcher
         TextWatcher commonTextWatcher = new TextWatcher() {
             @Override
