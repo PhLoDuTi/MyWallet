@@ -6,73 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".NewExpenseMenu"
     android:orientation="vertical"
-    android:layout_margin="8dp">
+    android:paddingTop="15dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:layout_weight="0.2"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add a new expense"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="35dp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:background="@drawable/add_expense_background"
+        android:layout_margin="15dp">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:hint="Amount"
-            android:inputType="numberDecimal" />
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:inputType="numberDecimal"
+            />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextKind"
-            android:hint="Kind" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Kind"
+            android:textAllCaps="true"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextDescription"
-            android:hint="Description" />
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            >
+            android:layout_margin="10dp"
+            android:hint="Description"
+            android:textAllCaps="true"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewDate"
-                android:hint="Date"
-                android:clickable="true"
-                android:layout_weight="1"
-                android:paddingVertical="20dp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewTime"
-                android:hint="Time"
-                android:clickable="true"
-                android:layout_weight="1"
-                android:paddingVertical="20dp"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10">
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:hint="Date"
+            android:textSize="20dp"
+            android:paddingVertical="20dp" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:hint="Time"
+            android:textSize="20dp"
+            android:paddingVertical="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:layout_margin="20dp">
 
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Expense"/>
+            android:text="Save Expense"
+            android:textSize="20dp"
+            android:background="@drawable/add_expense_background"/>
 
     </LinearLayout>
 
