@@ -127,7 +127,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void updateRecyclerViewData() {
-        List<ExpenseDaily> updatedData = expenses;
+        List<ExpenseDaily> updatedData = dbHelper.getExpensesMadeToday();
 
         // Update the adapter with the new data
         if (expenseAdapterDaily != null) {
