@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -50,10 +52,14 @@ public class MainMenu extends AppCompatActivity {
         updateRecyclerViewData();
 
         //Setting up listeners
+        //
+        //It isn't an elegant solution, but it would work for now...
+        //PLDT 16-10-2023 10:08
 
        RecyclerTouchListener recyclerTouchListener = new RecyclerTouchListener(this,
                expensesRecyclerViewDaily,
                new RecyclerTouchListener.ClickListener() {
+                   //Editing an expense
                    @Override
                    public void onClick(View view, int position) {
                        // Get the selected expense
@@ -61,17 +67,50 @@ public class MainMenu extends AppCompatActivity {
                        Expense selectedExpense = expenseNum.get(position);
 
                        // Create an intent to start the ExpenseEntryActivity in edit mode
-                       Intent editIntent = new Intent(MainMenu.this, NewExpenseMenu.class);
+                       Intent editIntent = new Intent(MainMenu.this,
+                               NewExpenseMenu.class);
                        editIntent.putExtra("EDIT_EXPENSE", selectedExpense);
                        startActivity(editIntent);
                    }
 
+                   //Deleting an expense
                    @Override
-                   public void onLongClick(View view, int position) {
-                       Toast.makeText(MainMenu.this,
-                               "onLongClick!",
-                               Toast.LENGTH_SHORT).show();
+                   public void onLongClick(View view, final int position) {
+                       AlertDialog.Builder alertDialog = new AlertDialog.
+                               Builder(MainMenu.this);
+                       alertDialog.setTitle("Delete Entry");
+                       alertDialog.setMessage("Are you sure you want to delete this entry?");
+
+                       alertDialog.setPositiveButton("YES",
+                               new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialog, int which) {
+                                       expenseNum = dbHelper.retrieveExpenseDataFromDatabase();
+
+                                       // Delete the entry from the list and notify the adapter
+                                       Expense deletedExpense = expenseNum.remove(position);
+
+                                       // Remove the entry from the database
+                                       long expenseId = deletedExpense.getId();
+                                       // Call the database deletion method
+                                       dbHelper.deleteExpense(expenseId);
+
+                                       dialog.dismiss();
+                                       updateRecyclerViewData();
+                                   }
+                               });
+
+                       alertDialog.setNegativeButton("NO",
+                               new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialog, int which) {
+                                       dialog.dismiss();
+                                   }
+                               });
+
+                       alertDialog.show();
                    }
+
                });
        expensesRecyclerViewDaily.addOnItemTouchListener(recyclerTouchListener);
 
@@ -166,6 +205,10 @@ public class MainMenu extends AppCompatActivity {
         // Update the adapter with the new data
         if (expenseAdapterDaily != null) {
             expenseAdapterDaily.updateData(updatedData);
+            //HACK When deleting an expense, changes should be reflected onto all fields.
+            setTodayDate();
+            setMonthlyExpenses();
+            setTodayExpenses();
         }
     }
 

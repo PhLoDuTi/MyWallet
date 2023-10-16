@@ -152,7 +152,7 @@ public class NewExpenseMenu extends AppCompatActivity {
                     values.put("time", currentTime);
 
 
-                    String[] whereArgs = {String.valueOf(editExpense.getId())}; // Adjust based on your database structure
+                    String[] whereArgs = {String.valueOf(editExpense.getId())};
                     int rowsUpdated = db.update("expenses", values, "_id=?", whereArgs);
 
                     if (rowsUpdated != -1) {

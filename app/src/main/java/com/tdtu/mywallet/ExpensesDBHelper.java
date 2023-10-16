@@ -252,4 +252,14 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
         return expenseList;
     }
 
+    //------------------------
+    //Handing deleting expense
+    //------------------------
+
+    public void deleteExpense(long expenseId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("expenses", "_id = ?", new String[]{String.valueOf(expenseId)});
+        db.close();
+    }
+
 }
