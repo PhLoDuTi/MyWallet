@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Wallet</string>
+
+    <string-array name="expense_view_options">
+        <item>Today\'s Expenses</item>
+        <item>Grouped Expenses (Date)</item>
+    </string-array>
+
 </resources>
