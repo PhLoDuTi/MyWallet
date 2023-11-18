@@ -43,7 +43,7 @@ public class DateTimeUtils {
     public static String formatToUserLocaleTime(String iso8601Time) {
         SimpleDateFormat iso8601TimeFormat = new SimpleDateFormat("HH:mm:ss",
                 Locale.US);
-        SimpleDateFormat userLocaleTimeFormat = new SimpleDateFormat("hh:mm a",
+        SimpleDateFormat userLocaleTimeFormat = new SimpleDateFormat("HH:mm",
                 Locale.getDefault());
 
         try {
@@ -55,4 +55,31 @@ public class DateTimeUtils {
             return iso8601Time;
         }
     }
+
+    public static Calendar getCurrentCalendar() {
+        return Calendar.getInstance();
+    }
+
+    public static String getCurrentISO8601Date() {
+        return formatToISO8601Date(getCurrentCalendar());
+    }
+
+    public static String getCurrentISO8601Time() {
+        return formatToISO8601Time(getCurrentCalendar());
+    }
+
+    // Get the current date in the format "yyyy-MM-dd"
+    public static String getCurrentDate() {
+        // Explicitly set the locale to ensure consistent formatting
+        SimpleDateFormat iso8601DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        return iso8601DateFormat.format(Calendar.getInstance(Locale.US).getTime());
+    }
+
+    // Get the current time in the format "HH:mm:ss"
+    public static String getCurrentTime() {
+        SimpleDateFormat iso8601TimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
+
+        return iso8601TimeFormat.format(Calendar.getInstance(Locale.US).getTime());
+    }
+
 }
