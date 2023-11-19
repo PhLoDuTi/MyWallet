@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Toggle Notifications -->
+    <SwitchPreference
+        android:key="toggle_notifications"
+        android:title="Toggle Notifications"
+        android:summary="Enable or disable notifications"/>
+
+    <!-- Expenses Backup -->
+    <Preference
+        android:key="expenses_backup"
+        android:title="Expenses Backup"
+        android:summary="Backup your expenses data"/>
+
+    <!-- Expenses Import -->
+    <Preference
+        android:key="expenses_import"
+        android:title="Expenses Import"
+        android:summary="Import expenses data"/>
+
+    <!-- Information Wipe -->
+    <Preference
+        android:key="information_wipe"
+        android:title="Information Wipe"
+        android:summary="Wipe all app information"
+        android:layout="@layout/custom_preference_layout"/>
+
+</PreferenceScreen>

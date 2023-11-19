@@ -10,15 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class MainMenu extends AppCompatActivity {
 
     private RecyclerView expensesRecyclerViewDaily;
     private RecyclerView expensesRecyclerViewGrouped;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +202,30 @@ public class MainMenu extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.action_settings) {
+            // Open the Settings activity
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        } else if (itemId == R.id.action_about) {
+            // Handle the About option
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void displayTodayExpenses() {
         expenseAdapterDaily.updateData(dbHelper.getExpensesMadeToday());

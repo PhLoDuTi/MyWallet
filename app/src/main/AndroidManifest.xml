@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MyWallet"
         tools:targetApi="31">
         <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewExpenseMenu"
             android:exported="false" />
         <activity
