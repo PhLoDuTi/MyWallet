@@ -38,7 +38,7 @@ public class ExpensePercentageAdapter extends RecyclerView.Adapter<ExpensePercen
         holder.textViewExpenseType.setText(expensePercentage.getExpenseType());
         holder.textViewPercentage.setText(String.format(Locale.getDefault(), "%.2f%%",
                 expensePercentage.getPercentage()));
-        holder.textViewTotalAmount.setText(String.format(Locale.getDefault(), "$%.2f",
+        holder.textViewTotalAmount.setText(String.format(Locale.getDefault(), "$%.0f",
                 expensePercentage.getTotalAmount()));
 
     }
