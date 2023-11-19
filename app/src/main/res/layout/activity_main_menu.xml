@@ -57,13 +57,22 @@
         android:orientation="vertical"
         android:layout_weight="4">
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewExpensesDaily"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_weight="1"
-            />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExpensesGrouped"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
     </LinearLayout>
 

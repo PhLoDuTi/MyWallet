@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import java.util.Calendar;
+import java.util.Locale;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +39,8 @@ public class NewExpenseMenu extends AppCompatActivity {
     private String isoFormattedTime;
 
     private boolean isEdit;
+    private boolean isDateEdited = false;
+    private boolean isTimeEdited = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,9 +134,16 @@ public class NewExpenseMenu extends AppCompatActivity {
                 String kind = editTextKind.getText().toString();
                 String description = editTextDescription.getText().toString();
 
-                // Use the internally stored ISO 8601 formatted date and time
-                String date = isoFormattedDate;
-                String time = isoFormattedTime;
+                String date = textViewDate.getText().toString().trim();
+                String time = textViewTime.getText().toString().trim();
+
+                // Check for empty fields and assign default values if true
+                if (description.isEmpty()) {
+                    description = "(None)";
+                }
+                date = handleDate(date,isoFormattedDate);
+                time = handleTime(time,isoFormattedTime);
+
 
                 // Open the database
                 ExpensesDBHelper dbHelper = new ExpensesDBHelper(NewExpenseMenu.this);
@@ -139,10 +151,19 @@ public class NewExpenseMenu extends AppCompatActivity {
 
 
                 // Check if we are editing an existing expense or creating a new one
-                if (isEdit) { // 'isEdit' should be a class-level variable
+                if (isEdit) {
                     //HACK prevent null on date and time when it hasn't been edited.
                     String currentDate = textViewDate.getText().toString();
                     String currentTime = textViewTime.getText().toString();
+
+                    // HACK Handle the case where date and time are not edited
+                    if (isDateEdited) {
+                        currentDate = handleDate(currentDate,isoFormattedDate);
+                    }
+                    if (isTimeEdited) {
+                        currentTime = handleTime(currentTime,isoFormattedTime);
+                    }
+
 
                     ContentValues values = new ContentValues();
                     values.put("amount", amount);
@@ -152,7 +173,7 @@ public class NewExpenseMenu extends AppCompatActivity {
                     values.put("time", currentTime);
 
 
-                    String[] whereArgs = {String.valueOf(editExpense.getId())}; // Adjust based on your database structure
+                    String[] whereArgs = {String.valueOf(editExpense.getId())};
                     int rowsUpdated = db.update("expenses", values, "_id=?", whereArgs);
 
                     if (rowsUpdated != -1) {
@@ -189,6 +210,26 @@ public class NewExpenseMenu extends AppCompatActivity {
                 // Close the database
                 db.close();
             }
+
+            private String handleTime(String time, String isoFormattedTime) {
+                // Handle empty or invalid time
+                if (time.isEmpty()) {
+                    // Assign the current time as the default value
+                    return DateTimeUtils.getCurrentTime();
+                } else {
+                    return isoFormattedTime;
+                }
+            }
+
+            // Handle empty or invalid date
+            private String handleDate(String date, String isoFormattedDate) {
+                if (date.isEmpty()) {
+                    // Assign the current date as the default value
+                    return DateTimeUtils.getCurrentDate();
+                } else {
+                    return isoFormattedDate;
+                }
+            }
         });
     }
 
@@ -210,6 +251,7 @@ public class NewExpenseMenu extends AppCompatActivity {
 
                         // Display the formatted date in the TextView
                         textViewDate.setText(DateTimeUtils.formatToUserLocaleDate(isoDate));
+                        isDateEdited = true;
                     }
                 }, year, month, day);
         datePickerDialog.show();
@@ -233,6 +275,7 @@ public class NewExpenseMenu extends AppCompatActivity {
 
                         // Display the formatted time in the TextView
                         textViewTime.setText(DateTimeUtils.formatToUserLocaleTime(isoTime));
+                        isTimeEdited = true;
                     }
                 }, hour, minute, true);
         timePickerDialog.show();
@@ -259,12 +302,14 @@ public class NewExpenseMenu extends AppCompatActivity {
         String date = textViewDate.getText().toString().trim();
         String time = textViewTime.getText().toString().trim();
 
-        boolean allFieldsFilled = !amount.isEmpty() &&
-                !kind.isEmpty() &&
-                !description.isEmpty() &&
-                !date.isEmpty() &&
-                !time.isEmpty();
+        // Check if amount and kind are non-empty, and optionally check for date and time
+        // If description is non-empty, or date/time is non-empty, consider them as filled
 
+        boolean allFieldsFilled = !amount.isEmpty() && !kind.isEmpty();
+
+        if (!description.isEmpty() || !date.isEmpty() || !time.isEmpty()) {
+            allFieldsFilled = true;
+        }
         buttonSave.setEnabled(allFieldsFilled);
     }
 

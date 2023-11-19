@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ExpensesDBHelper extends SQLiteOpenHelper {
 
@@ -251,5 +253,85 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
 
         return expenseList;
     }
+
+    //------------------------
+    //Handing deleting expense
+    //------------------------
+
+    public void deleteExpense(long expenseId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("expenses",
+                "_id = ?",
+                new String[]{String.valueOf(expenseId)});
+        db.close();
+    }
+
+    //---------------------
+    //Group expense by date
+    //---------------------
+
+    public Map<String, List<ExpenseDaily>> getExpensesGroupedByDate() {
+        Map<String, List<ExpenseDaily>> expensesGroupedByDate;
+        expensesGroupedByDate = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query("expenses",
+                null,
+                null,  // NOTE No date filter needed
+                null,
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()) {
+            String amount = cursor.getString(
+                    Math.max(0, cursor.getColumnIndex("amount")));
+
+            String kind = cursor.getString(
+                    Math.max(0, cursor.getColumnIndex("kind")));
+
+            String description = cursor.getString(
+                    Math.max(0, cursor.getColumnIndex("description")));
+
+            String date = cursor.getString(
+                    Math.max(0, cursor.getColumnIndex("date")));
+
+            ExpenseDaily expenseDaily = new ExpenseDaily(amount, kind, description);
+
+            // Check if the date is already in the map, if not, add a new list
+            if (!expensesGroupedByDate.containsKey(date)) {
+                expensesGroupedByDate.put(date, new ArrayList<>());
+            }
+
+            // Add the expense to the corresponding date in the map
+            expensesGroupedByDate.get(date).add(expenseDaily);
+        }
+
+        cursor.close();
+        db.close();
+        return expensesGroupedByDate;
+    }
+
+    //-------------
+    //Get all dates
+    //-------------
+
+    public List<String> getUniqueDates() {
+        List<String> uniqueDates = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT DISTINCT date FROM expenses",
+                null);
+
+        while (cursor.moveToNext()) {
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            uniqueDates.add(date);
+        }
+
+        cursor.close();
+        db.close();
+        return uniqueDates;
+    }
+
 
 }
