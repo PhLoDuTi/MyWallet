@@ -1,0 +1,3 @@
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <foreground android:drawable="@mipmap/wallet_icon_foreground"/>
+</adaptive-icon>
