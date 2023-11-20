@@ -23,7 +23,7 @@ public class AboutActivity extends AppCompatActivity {
         members.add(new Member("Trần Trung Dũng", "https://github.com/YuInH"));
         members.add(new Member("Vi Nguyễn Thành Đạt", "https://github.com/thanhviD"));
         members.add(new Member("Nguyễn Ngọc Tú", "https://github.com/tunguyen2207"));
-        members.add(new Member("Projecr GitHub", "https://github.com/PhLoDuTi/MyWallet"));
+        members.add(new Member("Project GitHub", "https://github.com/PhLoDuTi/MyWallet"));
 
 
         MemberAdapter adapter = new MemberAdapter(this, members);
