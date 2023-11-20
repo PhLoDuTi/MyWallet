@@ -1,5 +1,6 @@
 package com.tdtu.mywallet;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,6 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -350,4 +354,24 @@ public class MainMenu extends AppCompatActivity {
            db.close();
        }
    }
+
+
+    //-------------------------------------
+    //Handling results from the file picker
+    //-------------------------------------
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            DataBackupManager.handleImportResult(this, uri);
+        }
+        if (requestCode == 3 && resultCode == RESULT_OK && data != null) {
+            Uri fileUri = data.getData();
+            // Prompt user for confirmation before exporting data
+            DataBackupManager.exportDataToSelectedFile(this, fileUri);
+        }
+    }
 }

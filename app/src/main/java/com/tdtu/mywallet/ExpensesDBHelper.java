@@ -333,5 +333,43 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
         return uniqueDates;
     }
 
+    //---------------------------
+    //Importing Expense from file
+    //---------------------------
+
+    public long importExpense(String amount,
+                              String kind,
+                              String description,
+                              String date,
+                              String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("amount", amount);
+        values.put("kind", kind);
+        values.put("description", description);
+        values.put("date", date);
+        values.put("time", time);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert("expenses", null, values);
+        db.close();
+
+        return newRowId;
+    }
+
+    //-------------------------------------------------
+    //Method to retrieve all expenses from the database
+    //-------------------------------------------------
+
+    public Cursor getAllExpenses() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query("expenses",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
 
 }

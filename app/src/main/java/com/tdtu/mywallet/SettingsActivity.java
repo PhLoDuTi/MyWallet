@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             findPreference("expenses_backup").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    // Handle expenses backup click
+                    DataBackupManager.exportData((AppCompatActivity) requireActivity());
                     return true;
                 }
             });
@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
             findPreference("expenses_import").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    // Handle expenses import click
+                    DataBackupManager.importData((AppCompatActivity) requireActivity());
                     return true;
                 }
             });
@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
             findPreference("information_wipe").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    // Handle information wipe click
+                    DataBackupManager.wipeExpenses(requireContext());
                     return true;
                 }
             });
