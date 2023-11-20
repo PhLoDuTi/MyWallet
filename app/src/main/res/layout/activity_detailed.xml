@@ -15,12 +15,26 @@
 
         <!-- Expenses RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewExpenses"
+            android:id="@+id/recyclerViewExpensesChange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-
+        <!-- LineChart -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:nestedScrollingEnabled="false" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_margin="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:nestedScrollingEnabled="false" />
         <!-- Statistical Information TextView -->
         <TextView
             android:layout_width="match_parent"
@@ -36,7 +50,7 @@
             android:layout_marginLeft="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewExpensePercentages"
+                android:id="@+id/recyclerViewExpensePercentagesDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
