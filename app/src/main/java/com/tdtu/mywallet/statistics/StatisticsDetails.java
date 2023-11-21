@@ -188,7 +188,10 @@ public class StatisticsDetails extends AppCompatActivity {
         Random rnd = new Random();
         List<Integer> colors = new ArrayList<>();
         for(int i = 0; i < entries.size(); i++) {
-            int rand_num = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));   ;
+            int rand_num = Color.argb(255,
+                    rnd.nextInt(256),
+                    rnd.nextInt(256),
+                    rnd.nextInt(256));
             colors.add(rand_num);
         }
 

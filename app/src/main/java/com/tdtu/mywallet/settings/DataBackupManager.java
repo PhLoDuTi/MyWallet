@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +25,6 @@ import java.util.Locale;
 
 public class DataBackupManager {
 
-    private static final String CSV_FILE_NAME = "expenses.csv";
-
     public static void exportData(AppCompatActivity activity) {
         // Start folder picker intent
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -39,7 +36,8 @@ public class DataBackupManager {
     }
 
     private static String generateExportFileName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss",
+                Locale.getDefault());
         String dateTime = dateFormat.format(new Date());
         return "expense-" + dateTime + ".csv";
     }
@@ -51,7 +49,7 @@ public class DataBackupManager {
 
                 outputStream = context.getContentResolver().openOutputStream(fileUri);
 
-                // Get data from SQLite database (replace ExpenseDBHelper with your actual helper class)
+                // Get data from SQLite database
                 ExpensesDBHelper dbHelper = new ExpensesDBHelper(context);
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM expenses", null);
@@ -69,18 +67,23 @@ public class DataBackupManager {
                 db.close();
                 outputStream.close();
 
-                Toast.makeText(context, "Data exported to " + fileUri.getPath(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,
+                        "Data exported to " + fileUri.getPath(),
+                        Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "Export failed", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(context, "Selected file not writable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,
+                    "Selected file not writable",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     private static boolean isUriWritable(Context context, Uri uri) {
-        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
         context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
         return true;
     }
@@ -111,7 +114,8 @@ public class DataBackupManager {
                         FileInputStream fileInputStream =
                                 new FileInputStream(parcelFileDescriptor.getFileDescriptor());
 
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
+                        BufferedReader reader = new BufferedReader(new
+                                InputStreamReader(fileInputStream));
 
                         // Read the CSV file line by line
                         String line;
@@ -119,12 +123,17 @@ public class DataBackupManager {
                             String[] values = line.split(",");
 
                             ExpensesDBHelper dbHelper = new ExpensesDBHelper(context);
-                            SQLiteDatabase db = dbHelper.getReadableDatabase();
-                            long newRowId = dbHelper.importExpense(values[0], values[1], values[2], values[3], values[4]);
+                            long newRowId = dbHelper.importExpense(values[0],
+                                    values[1],
+                                    values[2],
+                                    values[3],
+                                    values[4]);
 
                             if (newRowId == -1) {
                                 // Handle insertion failure
-                                Toast.makeText(context, "Error importing data", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,
+                                        "Error importing data",
+                                        Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
@@ -137,19 +146,26 @@ public class DataBackupManager {
 
                         //This is likely the ugliest error handling I have ever seen
                         //PLDT 21-11-2023 10:18
-                        Toast.makeText(context, "Data imported successfully", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Error opening file", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,
+                                "Error opening file",
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "Please select a valid CSV file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,
+                            "Please select a valid CSV file",
+                            Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(context, "Invalid file selection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,
+                        "Invalid file selection",
+                        Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Import failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,
+                    "Import failed",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,7 +178,9 @@ public class DataBackupManager {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "Data imported successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,
+                                "Data imported successfully",
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 // User clicked "No", do nothing
@@ -192,10 +210,14 @@ public class DataBackupManager {
 
                             db.close();
 
-                            Toast.makeText(context, "Expenses wiped", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,
+                                    "Expenses wiped",
+                                    Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Wipe failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,
+                                    "Wipe failed",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -209,8 +231,4 @@ public class DataBackupManager {
                 .show();
     }
 
-    private static boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
 }

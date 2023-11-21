@@ -101,7 +101,8 @@ public class QuickExpenseNotificationService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "expense_channel")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
+                "expense_channel")
                 .setSmallIcon(R.drawable.wallet)
                 .setContentTitle("Add a new expense")
                 .setContentText("Tap to quickly add a new expense")

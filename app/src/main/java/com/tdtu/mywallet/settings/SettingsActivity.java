@@ -59,13 +59,16 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat  implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class SettingsFragment
+            extends PreferenceFragmentCompat
+            implements SharedPreferences.OnSharedPreferenceChangeListener {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings_preferences, rootKey);
 
             // Set click listeners for specific preferences if needed
-            findPreference("expenses_backup").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("expenses_backup").
+                    setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     DataBackupManager.exportData((AppCompatActivity) requireActivity());
@@ -73,7 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            findPreference("expenses_import").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("expenses_import").
+                    setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     DataBackupManager.importData((AppCompatActivity) requireActivity());
@@ -81,7 +85,8 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            findPreference("information_wipe").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("information_wipe").
+                    setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     DataBackupManager.wipeExpenses(requireContext());
@@ -118,7 +123,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void startNotificationService() {
-            Intent serviceIntent = new Intent(requireContext(), QuickExpenseNotificationService.class);
+            Intent serviceIntent = new Intent(requireContext(),
+                    QuickExpenseNotificationService.class);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 requireContext().startForegroundService(serviceIntent);
@@ -128,7 +134,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void stopNotificationService() {
-            Intent serviceIntent = new Intent(requireContext(), QuickExpenseNotificationService.class);
+            Intent serviceIntent = new Intent(requireContext(),
+                    QuickExpenseNotificationService.class);
             requireContext().stopService(serviceIntent);
         }
     }

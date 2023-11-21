@@ -19,12 +19,12 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         ArrayList<Member> members = new ArrayList<>();
-        members.add(new Member("Pham Long Duy Tiến", "https://github.com/PhLoDuTi"));
-        members.add(new Member("Phạm Tấn Duy", "https://github.com/GHTDuy"));
-        members.add(new Member("Trần Trung Dũng", "https://github.com/YuInH"));
-        members.add(new Member("Vi Nguyễn Thành Đạt", "https://github.com/thanhviD"));
-        members.add(new Member("Nguyễn Ngọc Tú", "https://github.com/tunguyen2207"));
-        members.add(new Member("Project GitHub", "https://github.com/PhLoDuTi/MyWallet"));
+        members.add(new Member("Version 1.1",
+                ""));
+        members.add(new Member("Contributors",
+                "https://github.com/PhLoDuTi/MyWallet/graphs/contributors"));
+        members.add(new Member("GitHub",
+                "https://github.com/PhLoDuTi/MyWallet"));
 
 
         MemberAdapter adapter = new MemberAdapter(this, members);

@@ -14,10 +14,12 @@ import com.tdtu.mywallet.R;
 import java.util.List;
 import java.util.Locale;
 
-public class ExpensePercentageAdapterDetail extends RecyclerView.Adapter<ExpensePercentageAdapterDetail.ViewHolder> {
+public class ExpensePercentageAdapterDetail extends
+        RecyclerView.Adapter<ExpensePercentageAdapterDetail.ViewHolder> {
     private List<StatisticsDetails.ExpensePercentage> expensePercentages;
 
-    public ExpensePercentageAdapterDetail(List<StatisticsDetails.ExpensePercentage> expensePercentages) {
+    public ExpensePercentageAdapterDetail(List<StatisticsDetails.ExpensePercentage>
+                                                  expensePercentages) {
         this.expensePercentages = expensePercentages;
     }
 
@@ -33,7 +35,10 @@ public class ExpensePercentageAdapterDetail extends RecyclerView.Adapter<Expense
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StatisticsDetails.ExpensePercentage expensePercentage = expensePercentages.get(position);
-        if (holder.textViewExpenseType == null || holder.textViewPercentage == null || holder.textViewTotalAmount == null) {
+        if (holder.textViewExpenseType == null ||
+                holder.textViewPercentage == null ||
+                holder.textViewTotalAmount == null) {
+
             Log.e("ViewHolderDebug", "TextViews are null");
             return;
         }
