@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.about_menu;
 
 public class Member {
     private String name;

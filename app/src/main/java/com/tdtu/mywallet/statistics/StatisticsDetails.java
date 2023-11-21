@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.statistics;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +24,11 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tdtu.mywallet.R;
+import com.tdtu.mywallet.main_menu.Expense;
+import com.tdtu.mywallet.main_menu.ExpenseDaily;
+import com.tdtu.mywallet.main_menu.ExpenseGridAdapter;
+import com.tdtu.mywallet.main_menu.ExpensesDBHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

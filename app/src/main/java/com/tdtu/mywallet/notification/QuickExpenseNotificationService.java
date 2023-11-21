@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,6 +11,9 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.tdtu.mywallet.R;
+import com.tdtu.mywallet.expense_entry_menu.NewExpenseMenu;
 
 public class QuickExpenseNotificationService extends Service {
 

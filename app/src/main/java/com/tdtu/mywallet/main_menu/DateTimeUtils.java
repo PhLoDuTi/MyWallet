@@ -5,7 +5,7 @@
 // https://vi.wikipedia.org/wiki/ISO_8601
 // https://en.wikipedia.org/wiki/ISO_8601
 
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.main_menu;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

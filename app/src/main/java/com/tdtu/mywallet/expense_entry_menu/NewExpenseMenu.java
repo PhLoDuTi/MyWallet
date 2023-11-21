@@ -1,11 +1,10 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.expense_entry_menu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,11 +18,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import java.util.Calendar;
-import java.util.Locale;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
+
+import com.tdtu.mywallet.R;
+import com.tdtu.mywallet.main_menu.DateTimeUtils;
+import com.tdtu.mywallet.main_menu.Expense;
+import com.tdtu.mywallet.main_menu.ExpensesDBHelper;
 
 public class NewExpenseMenu extends AppCompatActivity {
 

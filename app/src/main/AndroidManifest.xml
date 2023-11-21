@@ -18,22 +18,22 @@
         android:theme="@style/Theme.MyWallet"
         tools:targetApi="31">
         <activity
-            android:name=".StatisticsDetails"
+            android:name=".statistics.StatisticsDetails"
             android:exported="false"/>
         <activity
-            android:name=".AboutActivity"
+            android:name=".about_menu.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".NewExpenseMenu"
+            android:name=".expense_entry_menu.NewExpenseMenu"
             android:exported="false" />
         <activity
-            android:name=".StatisticsMenu"
+            android:name=".statistics.StatisticsMenu"
             android:exported="false" />
         <activity
-            android:name=".MainMenu"
+            android:name=".main_menu.MainMenu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,11 +42,11 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".QuickExpenseNotificationService"
+            android:name=".notification.QuickExpenseNotificationService"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".NotificationCancelReceiver"
+            android:name=".notification.NotificationCancelReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.example.EXPENSE_NOTIFICATION_CANCEL" />

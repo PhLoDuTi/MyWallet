@@ -1,56 +1,57 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.main_menu;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.tdtu.mywallet.R;
+
 import java.util.List;
 
-public class ExpenseGridAdapter extends RecyclerView.Adapter<ExpenseGridAdapter.ViewHolder> {
-    private List<Expense> expenses;
+public class ExpenseGridAdapterDaily extends
+        RecyclerView.Adapter<ExpenseGridAdapterDaily.ViewHolder> {
+    private List<ExpenseDaily> expenses;
 
-    public ExpenseGridAdapter(List<Expense> expenses) {
+    public ExpenseGridAdapterDaily(List<ExpenseDaily> expenses) {
         this.expenses = expenses;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_item_full,
-                parent,
-                false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Expense expense = expenses.get(position);
+        ExpenseDaily expense = expenses.get(position);
         holder.amountTextView.setText(expense.getAmount());
         holder.kindTextView.setText(expense.getKind());
         holder.descriptionTextView.setText(expense.getDescription());
-        holder.dateTextView.setText(expense.getDate());
-        holder.timeTextView.setText(expense.getTime());
     }
 
     @Override
     public int getItemCount() {
-    return expenses.size();
+        return expenses.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView amountTextView;
         public TextView kindTextView;
         public TextView descriptionTextView;
-        public TextView dateTextView;
-        public TextView timeTextView;
 
         public ViewHolder(View view) {
             super(view);
             amountTextView = view.findViewById(R.id.textViewAmount);
             kindTextView = view.findViewById(R.id.textViewKind);
             descriptionTextView = view.findViewById(R.id.textViewDescription);
-            dateTextView = view.findViewById(R.id.textViewDate);
-            timeTextView = view.findViewById(R.id.textViewTime);
         }
+    }
+
+    public void updateData(List<ExpenseDaily> newData) {
+        expenses = newData;
+        notifyDataSetChanged();
     }
 }

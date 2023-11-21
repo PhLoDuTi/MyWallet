@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

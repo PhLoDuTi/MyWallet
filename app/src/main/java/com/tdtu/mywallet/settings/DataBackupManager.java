@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
+
+import com.tdtu.mywallet.main_menu.ExpensesDBHelper;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

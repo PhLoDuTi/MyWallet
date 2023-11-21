@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.main_menu;
 
 import android.content.Context;
 import android.view.GestureDetector;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewExpenseMenu"
+    tools:context=".expense_entry_menu.NewExpenseMenu"
     android:orientation="vertical"
     android:paddingTop="15dp"
     android:background="@drawable/mainmenu_background_item">

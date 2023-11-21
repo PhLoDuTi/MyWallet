@@ -1,6 +1,5 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.main_menu;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,7 +23,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.tdtu.mywallet.about_menu.AboutActivity;
+import com.tdtu.mywallet.expense_entry_menu.NewExpenseMenu;
+import com.tdtu.mywallet.notification.QuickExpenseNotificationService;
+import com.tdtu.mywallet.R;
+import com.tdtu.mywallet.settings.SettingsActivity;
+import com.tdtu.mywallet.statistics.StatisticsMenu;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

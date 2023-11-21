@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.settings;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,9 @@ import android.view.MenuItem;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.tdtu.mywallet.notification.QuickExpenseNotificationService;
+import com.tdtu.mywallet.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

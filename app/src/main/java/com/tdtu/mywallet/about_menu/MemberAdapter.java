@@ -1,10 +1,12 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.about_menu;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.tdtu.mywallet.R;
 
 import java.util.ArrayList;
 public class MemberAdapter extends BaseAdapter{

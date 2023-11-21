@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".StatisticsMenu">
+        tools:context=".statistics.StatisticsMenu">
 
         <!-- Expenses RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView

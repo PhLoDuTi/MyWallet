@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.statistics;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,13 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tdtu.mywallet.R;
+
 import java.util.List;
 import java.util.Locale;
 
-public class ExpensePercentageAdapterDetail extends RecyclerView.Adapter<ExpensePercentageAdapterDetail.ViewHolder> {
-    private List<StatisticsDetails.ExpensePercentage> expensePercentages;
+public class ExpensePercentageAdapter extends RecyclerView.Adapter<ExpensePercentageAdapter.ViewHolder> {
+    private List<StatisticsMenu.ExpensePercentage> expensePercentages;
 
-    public ExpensePercentageAdapterDetail(List<StatisticsDetails.ExpensePercentage> expensePercentages) {
+    public ExpensePercentageAdapter(List<StatisticsMenu.ExpensePercentage> expensePercentages) {
         this.expensePercentages = expensePercentages;
     }
 
@@ -30,7 +32,7 @@ public class ExpensePercentageAdapterDetail extends RecyclerView.Adapter<Expense
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        StatisticsDetails.ExpensePercentage expensePercentage = expensePercentages.get(position);
+        StatisticsMenu.ExpensePercentage expensePercentage = expensePercentages.get(position);
         if (holder.textViewExpenseType == null || holder.textViewPercentage == null || holder.textViewTotalAmount == null) {
             Log.e("ViewHolderDebug", "TextViews are null");
             return;

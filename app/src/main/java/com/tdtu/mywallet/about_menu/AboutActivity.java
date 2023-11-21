@@ -1,4 +1,4 @@
-package com.tdtu.mywallet;
+package com.tdtu.mywallet.about_menu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.tdtu.mywallet.Member;
+import com.tdtu.mywallet.R;
+
 import java.util.ArrayList;
 
 public class AboutActivity extends AppCompatActivity {
