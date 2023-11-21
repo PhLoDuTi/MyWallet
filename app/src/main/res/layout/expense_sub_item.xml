@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:padding="8dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/statistic_menu_background_item">
 
