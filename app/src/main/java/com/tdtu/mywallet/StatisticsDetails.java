@@ -1,6 +1,7 @@
 package com.tdtu.mywallet;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class StatisticsDetails extends AppCompatActivity {
@@ -56,6 +58,10 @@ public class StatisticsDetails extends AppCompatActivity {
 
         expensesRecyclerView = findViewById(R.id.recyclerViewExpensesChange);
         expensesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
 
         // Create line chart
         totalByDateForLineChart = new HashMap<>();
@@ -171,8 +177,22 @@ public class StatisticsDetails extends AppCompatActivity {
             entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
 
         }
+
+
+        //get color for pie chart
+        // create object of Random class
+        Random rnd = new Random();
+        List<Integer> colors = new ArrayList<>();
+        for(int i = 0; i < entries.size(); i++) {
+            int rand_num = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));   ;
+            colors.add(rand_num);
+        }
+
+
+
+
         PieDataSet dataSet = new PieDataSet(entries, "Total Expense:");
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(colors);
         PieData pieData = new PieData(dataSet);
         pieChart.setData(pieData);
         pieChart.animateY(1000);
