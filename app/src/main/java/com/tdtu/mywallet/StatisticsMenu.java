@@ -5,14 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 
 public class StatisticsMenu extends AppCompatActivity {
@@ -21,7 +33,7 @@ public class StatisticsMenu extends AppCompatActivity {
     private ExpenseGridAdapter expenseAdapter;
     private List<Expense> expenses;
     private List<ExpenseDaily> allExpenses;
-
+    private Map<String, Double> totalByDateForLineChart;
     private SQLiteDatabase db;
     private ExpensesDBHelper dbHelper;
 
@@ -39,6 +51,8 @@ public class StatisticsMenu extends AppCompatActivity {
 
         expensesRecyclerView = findViewById(R.id.recyclerViewExpenses);
         expensesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        totalByDateForLineChart = new HashMap<>();
 
         // ---------------------------------------
         // Retrieve expense data from the database
@@ -96,6 +110,7 @@ public class StatisticsMenu extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // ----------------------------
         if (expenses != null) {
             expenseAdapter = new ExpenseGridAdapter(expenses);
             expensesRecyclerView.setAdapter(expenseAdapter);
@@ -108,10 +123,19 @@ public class StatisticsMenu extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.statistics_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             onBackPressed();
+            return true;
+        } else if (id == R.id.action_detailed) {
+            startActivity(new Intent(this, StatisticsDetails.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
