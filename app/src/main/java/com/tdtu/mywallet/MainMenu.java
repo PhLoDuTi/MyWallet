@@ -354,24 +354,4 @@ public class MainMenu extends AppCompatActivity {
            db.close();
        }
    }
-
-
-    //-------------------------------------
-    //Handling results from the file picker
-    //-------------------------------------
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            DataBackupManager.handleImportResult(this, uri);
-        }
-        if (requestCode == 3 && resultCode == RESULT_OK && data != null) {
-            Uri fileUri = data.getData();
-            // Prompt user for confirmation before exporting data
-            DataBackupManager.exportDataToSelectedFile(this, fileUri);
-        }
-    }
 }

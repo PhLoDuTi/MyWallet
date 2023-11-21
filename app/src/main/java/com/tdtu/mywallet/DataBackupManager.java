@@ -10,19 +10,15 @@ import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,16 +54,10 @@ public class DataBackupManager {
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM expenses", null);
 
-                // Write column headers
-                String[] columnNames = cursor.getColumnNames();
-                for (String columnName : columnNames) {
-                    outputStream.write((columnName + ",").getBytes());
-                }
-                outputStream.write("\n".getBytes());
-
                 // Write data
                 while (cursor.moveToNext()) {
-                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    //HACK Skip the "_id" attribute on the database
+                    for (int i = 1; i < cursor.getColumnCount(); i++) {
                         outputStream.write((cursor.getString(i) + ",").getBytes());
                     }
                     outputStream.write("\n".getBytes());
@@ -104,40 +94,60 @@ public class DataBackupManager {
     }
 
     public static void handleImportResult(Context context, Uri uri) {
-        // Check if the selected file is a CSV file
-        if (uri != null && uri.toString().toLowerCase().endsWith(".csv")) {
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(context.getContentResolver().openInputStream(uri)));
+        try {
+            DocumentFile documentFile = DocumentFile.fromSingleUri(context, uri);
 
-                // Read the CSV file line by line
-                String line;
-                while ((line = reader.readLine()) != null) {
+            if (documentFile != null && documentFile.isFile() && documentFile.getName() != null) {
+                String fileName = documentFile.getName();
 
-                    String[] values = line.split(",");
+                // Check if the file has a ".csv" extension
+                if (fileName.toLowerCase().endsWith(".csv")) {
+                    ParcelFileDescriptor parcelFileDescriptor =
+                            context.getContentResolver().openFileDescriptor(uri, "r");
 
-                    ExpensesDBHelper dbHelper = new ExpensesDBHelper(context);
-                    SQLiteDatabase db = dbHelper.getReadableDatabase();
-                    long newRowId = dbHelper.importExpense(values[0], values[1], values[2], values[3], values[4]);
+                    if (parcelFileDescriptor != null) {
+                        FileInputStream fileInputStream =
+                                new FileInputStream(parcelFileDescriptor.getFileDescriptor());
 
-                    if (newRowId == -1) {
-                        // Handle insertion failure
-                        Toast.makeText(context, "Error importing data", Toast.LENGTH_SHORT).show();
-                        return;
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+                        // Read the CSV file line by line
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            String[] values = line.split(",");
+
+                            ExpensesDBHelper dbHelper = new ExpensesDBHelper(context);
+                            SQLiteDatabase db = dbHelper.getReadableDatabase();
+                            long newRowId = dbHelper.importExpense(values[0], values[1], values[2], values[3], values[4]);
+
+                            if (newRowId == -1) {
+                                // Handle insertion failure
+                                Toast.makeText(context, "Error importing data", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+
+                        reader.close();
+                        fileInputStream.close();
+
+                        // Show confirmation dialog before overwriting data
+                        showConfirmationDialog(context);
+
+                        //This is likely the ugliest error handling I have ever seen
+                        //PLDT 21-11-2023 10:18
+                        Toast.makeText(context, "Data imported successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error opening file", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(context, "Please select a valid CSV file", Toast.LENGTH_SHORT).show();
                 }
-
-                reader.close();
-
-                // Show confirmation dialog before overwriting data
-                showConfirmationDialog(context);
-
-                 Toast.makeText(context, "Data imported successfully", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(context, "Import failed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Invalid file selection", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(context, "Please select a valid CSV file", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Import failed", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -145,17 +155,18 @@ public class DataBackupManager {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Confirmation")
                 .setMessage("Importing data will overwrite existing data. Do you want to proceed?")
+
+                // User clicked "Yes", proceed with the import
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // User clicked "Yes", proceed with the import
                         Toast.makeText(context, "Data imported successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
+                // User clicked "No", do nothing
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // User clicked "No", do nothing
                         dialog.dismiss();
                     }
                 })

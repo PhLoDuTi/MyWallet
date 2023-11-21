@@ -356,7 +356,6 @@ public class ExpensesDBHelper extends SQLiteOpenHelper {
 
         return newRowId;
     }
-
     //-------------------------------------------------
     //Method to retrieve all expenses from the database
     //-------------------------------------------------
