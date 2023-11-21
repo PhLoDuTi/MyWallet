@@ -13,7 +13,9 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/statistic_menu_background_item"
+        >
 
         <TextView
             android:id="@+id/textViewAmount"
@@ -22,7 +24,9 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:textAlignment="center"
-            android:text="Amount"/>
+            android:text="Amount"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
 
         <TextView
@@ -34,7 +38,9 @@
             android:textSize="14sp"
             android:textAlignment="center"
             android:ellipsize="end"
-            android:text="Kind"/>
+            android:text="Kind"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
 
         <TextView
@@ -45,7 +51,9 @@
             android:maxLines="1"
             android:textSize="14sp"
             android:ellipsize="end"
-            android:text="Description"/>
+            android:text="Description"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
 
 

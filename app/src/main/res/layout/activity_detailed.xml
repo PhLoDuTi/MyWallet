@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@drawable/mainmenu_background_item"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +20,8 @@
             android:id="@+id/recyclerViewExpensesChange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/mainmenu_background_item"/>
 
         <!-- LineChart -->
         <com.github.mikephil.charting.charts.LineChart
@@ -34,30 +37,11 @@
             android:layout_height="400dp"
             android:layout_margin="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:nestedScrollingEnabled="false" />
-        <!-- Statistical Information TextView -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Statistical Information:"
-            android:padding="10dp"
-            android:textSize="18sp"/>
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/mainmenu_background_item"/>
 
-        <!-- Expense Percentages RecyclerView -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewExpensePercentagesDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:scrollbars="vertical"
-                android:nestedScrollingEnabled="false" />
 
-        </RelativeLayout>
 
 
 

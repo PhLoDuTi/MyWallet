@@ -121,10 +121,8 @@ public class StatisticsDetails extends AppCompatActivity {
                 -> Double.compare(p2.getPercentage(), p1.getPercentage()));
 
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewExpensePercentagesDetail);
-        ExpensePercentageAdapterDetail adapter = new ExpensePercentageAdapterDetail(expensePercentages);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         // ----------------------------
         // Get expenses grouped by date
