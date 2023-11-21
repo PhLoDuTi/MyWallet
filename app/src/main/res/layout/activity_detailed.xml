@@ -19,7 +19,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewExpensesChange"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:nestedScrollingEnabled="false"
             android:background="@drawable/mainmenu_background_item"/>
 
